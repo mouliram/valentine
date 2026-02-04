@@ -104,33 +104,97 @@
     }
   }
 
-  function sayYes() {
-    document.body.innerHTML = `
+function sayYes() {
+  const today = new Date().toISOString().split("T")[0];
+
+  const days = [
+    { name: "🌹 Rose Day", date: "2026-02-07", text: "You are the most beautiful rose in my life ❤️" },
+    { name: "💍 Propose Day", date: "2026-02-08", text: "I promise to love you today and forever 💖" },
+    { name: "🍫 Chocolate Day", date: "2026-02-09", text: "Life is sweeter with you, like chocolate 🍫" },
+    { name: "🧸 Teddy Day", date: "2026-02-10", text: "I wish I could hug you like a teddy every day 🧸" },
+    { name: "🤞 Promise Day", date: "2026-02-11", text: "I promise to stand by you always 🤍" },
+    { name: "🤗 Hug Day", date: "2026-02-12", text: "Sending you the warmest hug ever 🤗" },
+    { name: "💋 Kiss Day", date: "2026-02-13", text: "One kiss, a thousand feelings 💋" }
+  ];
+
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+      padding:40px;
+      font-family:'Comic Sans MS', cursive;
+      text-align:center;
+    ">
+      <h1 style="color:#ff4d6d;margin-bottom:30px;">
+        Valentine Week 💖
+      </h1>
+
       <div style="
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family:'Comic Sans MS', cursive;
-        text-align:center;
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:20px;
+        max-width:900px;
+        margin:auto;
       ">
-        <div style="
-          background:white;
-          padding:50px;
-          border-radius:20px;
-          box-shadow:0 20px 40px rgba(0,0,0,0.2);
-        ">
-          <h1 style="color:#ff4d6d;">
-            I knew you would say YES 💕😍
-          </h1>
-          <p style="font-size:22px;">
-            Happy Valentine’s Day, my love ❤️
-          </p>
-        </div>
+        ${days.map(day => {
+          const unlocked = today >= day.date;
+          return `
+            <div
+              onclick="${unlocked ? `openCard('${day.text}')` : ''}"
+              style="
+                background:white;
+                padding:25px;
+                border-radius:20px;
+                box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                cursor:${unlocked ? 'pointer' : 'not-allowed'};
+                opacity:${unlocked ? '1' : '0.5'};
+              "
+            >
+              <h2>${day.name}</h2>
+              <p>${unlocked ? 'Tap to open 💖' : 'Locked 🔒'}</p>
+            </div>
+          `;
+        }).join("")}
       </div>
-    `;
-  }
+    </div>
+  `;
+}
+
+function openCard(text) {
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+      font-family:'Comic Sans MS', cursive;
+      text-align:center;
+    ">
+      <div style="
+        background:white;
+        padding:50px;
+        border-radius:20px;
+        box-shadow:0 20px 40px rgba(0,0,0,0.2);
+        max-width:500px;
+      ">
+        <h1 style="color:#ff4d6d;">💖</h1>
+        <p style="font-size:24px;">${text}</p>
+        <br>
+        <button onclick="sayYes()" style="
+          padding:10px 25px;
+          border:none;
+          border-radius:20px;
+          background:#ff4d6d;
+          color:white;
+          font-size:18px;
+          cursor:pointer;
+        ">Back</button>
+      </div>
+    </div>
+  `;
+}
+
 
   // Floating hearts
   setInterval(() => {
