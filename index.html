@@ -142,19 +142,19 @@ function sayYes() {
         margin:auto;
       ">
         ${days.map(day => {
-          const unlocked = today >= day.date;
-          return `
-            <div
-              onclick="openCard('${day.text}', '${day.image || ""}')"
-              style="
-                background:white;
-                padding:25px;
-                border-radius:20px;
-                box-shadow:0 10px 25px rgba(0,0,0,0.2);
-                cursor:${unlocked ? 'pointer' : 'not-allowed'};
-                opacity:${unlocked ? '1' : '0.5'};
-              "
-            >
+  const unlocked = today >= day.date;
+  return `
+    <div
+      ${unlocked ? `onclick="openCard('${day.text}', '${day.image || ""}')"` : ""}
+      style="
+        background:white;
+        padding:25px;
+        border-radius:20px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.2);
+        cursor:${unlocked ? 'pointer' : 'not-allowed'};
+        opacity:${unlocked ? '1' : '0.5'};
+      "
+    >
               <h2>${day.name}</h2>
               <p>${unlocked ? 'Tap to open 💖' : 'Locked 🔒'}</p>
             </div>
