@@ -65,15 +65,36 @@
     }
 
     @keyframes floatUp {
-      0% {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-110vh) scale(1.5);
-        opacity: 0;
-      }
-    }
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+}
+
+@keyframes swayUp {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(60px, -110vh) scale(1.3); opacity: 0; }
+}
+
+@keyframes bounceUp {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-50vh) scale(1.2); }
+  100% { transform: translateY(-110vh) scale(1); opacity: 0; }
+}
+
+@keyframes zoomFloat {
+  0% { transform: translateY(0) scale(0.5); opacity: 0; }
+  100% { transform: translateY(-110vh) scale(1.6); opacity: 1; }
+}
+    @keyframes rainbowFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) scale(1.6);
+    opacity: 0;
+  }
+}
+
   </style>
 </head>
 
@@ -89,6 +110,11 @@
   <script>
   let yesSize = 1;
   let noClicks = 0;
+    let currentEmoji = "💖";
+let currentAnimation = "floatUp";
+let currentSpeed = 6;
+let multiColor = false;
+
 
   function sayNo() {
     noClicks++;
@@ -108,13 +134,13 @@
 const days = [
   {
     name: "🌹 Rose Day",
-    date: "2026-02-07",
+    date: "2026-02-04",
     text: "Idhigoo puvvuuu nuvvey naa loveeuuu ❤️",
     image: "photos/rose.png"
   },
   {
     name: "💍 Propose Day",
-    date: "2026-02-08",
+    date: "2026-02-04",
     text: `From the moment you came into my life,
 everything felt warmer, calmer, better. Ofcourse there are Ups and Downs.
 
@@ -124,8 +150,8 @@ and a whole lot of love.
 
 Will you continue this beautiful journey with me? 💖`
   },
-  { name: "🍫 Chocolate Day", date: "2026-02-09", text: `Dont expect anything here...Sugar cut loo unnavv marchipokuuuuuu...Kalisinappudu thindham` },
-  { name: "🧸 Teddy Day", date: "2026-02-10", text: "Cute teddy ki teddy avasarama 🧸...Sarle idhi unchukooo",
+  { name: "🍫 Chocolate Day", date: "2026-02-04", text: `Dont expect anything here...Sugar cut loo unnavv marchipokuuuuuu...Kalisinappudu thindham` },
+  { name: "🧸 Teddy Day", date: "2026-02-04", text: "Cute teddy ki teddy avasarama 🧸...Sarle idhi unchukooo",
   image: "photos/teddy.png"},
   { name: "🤞 Promise Day", date: "2026-02-04", text: `<h1> Quiet Promises </h1>
   <ul>
@@ -135,15 +161,15 @@ Will you continue this beautiful journey with me? 💖`
   <li>to annoy you forever🤍</li>
   </ul>
   <p>Mainly i may not make you happy with the things i do, but I promise i wont make you cry` },
-  { name: "🤗 Hug Day", date: "2026-02-12", text: `If I could, I would hug you right now
+  { name: "🤗 Hug Day", date: "2026-02-04", text: `If I could, I would hug you right now
 and not let go for a while.
 
 <p>Not to say anything.</p>
 <p>Just to remind you —
 you are safe, loved,
 and never alone. 🤍</p>` },
-  { name: "💋 Kiss Day", date: "2026-02-13", text: "Lets unlock when we meet 🙈💋" },
-  { name: "Last one", date: "2026-02-14", text: `
+  { name: "💋 Kiss Day", date: "2026-02-04", text: "Lets unlock when we meet 🙈💋" },
+  { name: "Last one", date: "2026-02-04", text: `
   <h1>No matter the day, month, or year — I choose you</h1>
   <h1>7 days ipoyay...Lets make it till 7 steps 🙈</h1>
   ` }
@@ -198,6 +224,60 @@ function sayYes() {
 }
 function openCardByIndex(index) {
   const day = days[index];
+  switch (day.name) {
+  case "🌹 Rose Day":
+    currentEmoji = "🌹";
+    currentAnimation = "swayUp";
+    currentSpeed = 7;
+    break;
+
+  case "💍 Propose Day":
+    currentEmoji = "💍";
+    currentAnimation = "zoomFloat";
+    currentSpeed = 8;
+    break;
+
+  case "🍫 Chocolate Day":
+    currentEmoji = "🍫";
+    currentAnimation = "floatUp";
+    currentSpeed = 5;
+    break;
+
+  case "🧸 Teddy Day":
+    currentEmoji = "🧸";
+    currentAnimation = "bounceUp";
+    currentSpeed = 6;
+    break;
+
+  case "🤞 Promise Day":
+    currentEmoji = "🤞";
+    currentAnimation = "floatUp";
+    currentSpeed = 7;
+    break;
+
+  case "🤗 Hug Day":
+    currentEmoji = "🤗";
+    currentAnimation = "bounceUp";
+    currentSpeed = 5;
+    break;
+
+  case "💋 Kiss Day":
+    currentEmoji = "💋";
+    currentAnimation = "zoomFloat";
+    currentSpeed = 4;
+    break;
+
+  case "Last one":
+  multiColor = true;
+  currentAnimation = "rainbowFloat";
+  currentSpeed = 5;
+  break;
+
+  default:
+    currentEmoji = "💖";
+    currentAnimation = "floatUp";
+    currentSpeed = 6;
+}
   openCard(day.text, day.image || null);
 }
 
@@ -233,15 +313,15 @@ function openCard(text, image = null) {
         <p style="font-size:24px;">${text}</p>
 
         <br>
-        <button onclick="sayYes()" style="
-          padding:10px 25px;
-          border:none;
-          border-radius:20px;
-          background:#ff4d6d;
-          color:white;
-          font-size:18px;
-          cursor:pointer;
-        ">Back 💖</button>
+        <button onclick="
+  multiColor=false;
+  currentEmoji='💖';
+  currentAnimation='floatUp';
+  currentSpeed=6;
+  sayYes();
+">
+Back 💖
+</button>
       </div>
     </div>
   `;
@@ -249,18 +329,25 @@ function openCard(text, image = null) {
 
 
   // Floating hearts
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerText = "💖";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-    document.body.appendChild(heart);
+  const heartColors = ["❤️","🧡","💛","💚","💙","💜","🩷","🤍"];
 
-    setTimeout(() => {
-      heart.remove();
-    }, 6000);
-  }, 500);
+setInterval(() => {
+  const el = document.createElement("div");
+  el.className = "heart";
+
+  el.innerText = multiColor
+    ? heartColors[Math.floor(Math.random() * heartColors.length)]
+    : currentEmoji;
+
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.animation = `${currentAnimation} ${currentSpeed}s linear infinite`;
+  el.style.fontSize = Math.random() * 20 + 24 + "px";
+
+  document.body.appendChild(el);
+
+  setTimeout(() => el.remove(), currentSpeed * 1000);
+}, 500);
+
 </script>
 
 
