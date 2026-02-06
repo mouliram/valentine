@@ -94,6 +94,38 @@
     opacity: 0;
   }
 }
+    .angry {
+  position: fixed;
+  bottom: 0;
+  font-size: 28px;
+  animation: angryFloat 2.5s ease-out forwards;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.angry-text {
+  position: fixed;
+  bottom: 80px;
+  font-size: 18px;
+  background: rgba(255, 77, 109, 0.9);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 20px;
+  animation: angryFloat 2.8s ease-out forwards;
+  z-index: 6;
+  pointer-events: none;
+}
+
+@keyframes angryFloat
+0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-250px) scale(1.8);
+    opacity: 0;
+  }
+}
 
   </style>
 </head>
@@ -115,21 +147,70 @@ let currentAnimation = "floatUp";
 let currentSpeed = 6;
 let multiColor = false;
 
+    function showAngryEffects() {
+  const angryEmojis = ["😡", "😠", "😤", "🤬", "😾", "💢"];
+  const angryTexts = [
+    "Hey 😤",
+    "Why no 😡",
+    "Think again 🙈",
+    "That hurt 💔",
+    "You’re testing me 😾",
+    "Still no? 🤬"
+  ];
 
-  function sayNo() {
-    noClicks++;
-    yesSize += 0.3;
+  // 🔥 Emoji count increases with No clicks
+  for (let i = 0; i < noClicks * 2; i++) {
+    const emoji = document.createElement("div");
+    emoji.className = "angry";
+    emoji.innerText = angryEmojis[Math.floor(Math.random() * angryEmojis.length)];
+    emoji.style.left = Math.random() * 100 + "vw";
+    emoji.style.animationDuration = (Math.random() * 1 + 2) + "s";
+    document.body.appendChild(emoji);
+    setTimeout(() => emoji.remove(), 3000);
+  }
 
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
+  // 💬 Floating teasing message
+  if (noClicks >= 2) {
+    const text = document.createElement("div");
+    text.className = "angry-text";
+    text.innerText = angryTexts[Math.floor(Math.random() * angryTexts.length)];
+    text.style.left = Math.random() * 70 + "vw";
+    document.body.appendChild(text);
+    setTimeout(() => text.remove(), 3000);
+  }
 
-    yesBtn.style.transform = `scale(${yesSize})`;
-
-    // Hide "No" after 5 clicks
-    if (noClicks >= 5) {
-      noBtn.style.display = "none";
+  // 💔 Broken hearts after 3 No clicks
+  if (noClicks >= 3) {
+    for (let i = 0; i < noClicks; i++) {
+      const heart = document.createElement("div");
+      heart.className = "angry";
+      heart.innerText = "💔";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = "3s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 3000);
     }
   }
+}
+
+
+  function sayNo() {
+  noClicks++;
+  yesSize += 0.3;
+
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+
+  yesBtn.style.transform = `scale(${yesSize})`;
+
+  showAngryEffects(); // 😈 FUN CHAOS HERE
+
+  // Hide No button after 5 clicks
+  if (noClicks >= 5) {
+    noBtn.style.display = "none";
+  }
+}
+
     
 const days = [
   {
